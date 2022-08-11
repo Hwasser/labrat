@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Lab Rat</string>
+
+    <string name="button_en_new_game">New Game</string>
+    <string name="button_en_continue">Continue</string>
+    <string name="button_en_highscore">Highscore</string>
+    <string name="button_en_settings">Settings</string>
+    <string name="text_en_time">Time:</string>
+    <string name="text_en_level">Level:</string>
+
+    <string name="button_sv_new_game">Nytt Spel</string>
+    <string name="button_sv_continue">Fortsätt</string>
+    <string name="button_sv_highscore">Högst Poäng</string>
+    <string name="button_sv_settings">Inställningar</string>
+    <string name="text_sv_time">Tid:</string>
+    <string name="text_sv_level">Nivå:</string>
+</resources>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#666666"
+    tools:context=".Level1Fragment">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/show_actionbar"
+        android:layout_width="44dp"
+        android:layout_height="wrap_content"
+        android:alpha="0.75"
+        android:src="@drawable/hide_actionbar_foreground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:fabSize="mini"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/play_field"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:background="#8cfa90"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/trap_0"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/trap"
+            android:translationX="40dp"
+            android:translationY="56dp" />
+
+        <ImageView
+            android:id="@+id/trap_1"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/trap"
+            android:translationX="200dp"
+            android:translationY="88dp" />
+
+        <ImageView
+            android:id="@+id/trap_2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/trap"
+            android:translationX="256dp"
+            android:translationY="40dp" />
+
+        <ImageView
+            android:id="@+id/trap_3"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/trap"
+            android:translationX="100dp"
+            android:translationY="120dp" />
+
+<!--
+        <TextView
+            android:id="@+id/wall_0"
+            android:layout_width="8dp"
+            android:layout_height="72dp"
+            android:background="#666666"
+            android:translationX="280dp" />
+-->
+        <TextView
+            android:id="@+id/wall_1"
+            android:layout_width="32dp"
+            android:layout_height="8dp"
+            android:background="#666666"
+            android:translationX="280dp"
+            android:translationY="72dp" />
+
+        <TextView
+            android:id="@+id/wall_2"
+            android:layout_width="112dp"
+            android:layout_height="8dp"
+            android:background="#666666"
+            android:translationX="200dp"
+            android:translationY="112dp" />
+
+        <TextView
+            android:id="@+id/wall_3"
+            android:layout_width="186dp"
+            android:layout_height="8dp"
+            android:background="#666666"
+            android:translationX="94dp"
+            android:translationY="32dp" />
+
+        <TextView
+            android:id="@+id/wall_4"
+            android:layout_width="8dp"
+            android:layout_height="36dp"
+            android:background="#666666"
+            android:translationX="32dp"
+            android:translationY="68dp" />
+
+        <TextView
+            android:id="@+id/wall_5"
+            android:layout_width="160dp"
+            android:layout_height="8dp"
+            android:background="#666666"
+            android:translationX="32dp"
+            android:translationY="80dp" />
+
+        <TextView
+            android:id="@+id/wall_6"
+            android:layout_width="154dp"
+            android:layout_height="8dp"
+            android:background="#666666"
+            android:translationX="0dp"
+            android:translationY="144dp" />
+
+        <TextView
+            android:id="@+id/wall_7"
+            android:layout_width="8dp"
+            android:layout_height="28dp"
+            android:background="#666666"
+            android:translationX="84dp"
+            android:translationY="124dp" />
+
+        <TextView
+            android:id="@+id/wall_8"
+            android:layout_width="8dp"
+            android:layout_height="28dp"
+            android:background="#666666"
+            android:translationX="130dp"
+            android:translationY="124dp" />
+
+        <TextView
+            android:id="@+id/wall_9"
+            android:layout_width="8dp"
+            android:layout_height="100dp"
+            android:background="#666666"
+            android:translationX="192dp"
+            android:translationY="80dp" />
+
+        <ImageView
+            android:id="@+id/player"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/player"
+            android:translationX="248dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/text_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:background="#5000"
+        android:text="Level: 1"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#5000"
+        android:padding="2dp"
+        android:text="Time: "
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#5000"
+        android:padding="2dp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toEndOf="@+id/text_time"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
