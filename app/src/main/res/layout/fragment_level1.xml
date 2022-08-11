@@ -8,6 +8,11 @@
     android:background="#666666"
     tools:context=".Level1Fragment">
 
+    <se.umu.vihw0001.slutprojekt.GameView
+        android:id="@+id/game_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/show_actionbar"
         android:layout_width="44dp"
@@ -22,6 +27,7 @@
         android:id="@+id/play_field"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="invisible"
         android:layout_margin="8dp"
         android:background="#8cfa90"
         app:layout_constraintStart_toStartOf="parent"

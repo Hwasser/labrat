@@ -28,10 +28,10 @@ class Player(xPosition: Int, yPosition: Int) {
         val newPosX = position.x + yMoveAdjusted * 0.5f
         val newPosY = position.y + xMoveAdjusted * 0.5f
 
-        if (!horizontalScreenCollision(newPosX, screenWidth) && !horizontalObstacleCollision(newPosX, newPosY, obstacles))
+        //if (!horizontalScreenCollision(newPosX, screenWidth) && !horizontalObstacleCollision(newPosX, newPosY, obstacles))
             position.x = newPosX
 
-        if (!verticalScreenCollision(newPosY, screenHeight) && !verticalObstacleCollision(newPosX, newPosY, obstacles))
+        //if (!verticalScreenCollision(newPosY, screenHeight) && !verticalObstacleCollision(newPosX, newPosY, obstacles))
             position.y = newPosY
     }
 

@@ -1,5 +1,6 @@
 package se.umu.vihw0001.slutprojekt
 
+import android.app.GameManager
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.hardware.Sensor
@@ -39,16 +40,13 @@ class Level1Fragment : Fragment(), SensorEventListener {
     private lateinit var viewModel: GameViewModel
     lateinit var sensorManager: SensorManager
     lateinit var playerView: ImageView
-    lateinit var playFieldObserver: ViewTreeObserver
     lateinit var actionbarButton: FloatingActionButton
     lateinit var chronometer: Chronometer
+    lateinit var gameView: GameView
 
     var screenWidth: Int = 0
     var screenHeight: Int = 0
     var hideActionbar = false
-    var widthModifier  = 1.0f
-    var heightModifier = 1.0f
-    var blabla = false // TODO: remove
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,16 +69,19 @@ class Level1Fragment : Fragment(), SensorEventListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_level1, container, false)
+        val root = inflater.inflate(R.layout.fragment_level1, container, false)
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val playField: RelativeLayout = view.findViewById(R.id.play_field)
+        gameView = view.findViewById(R.id.game_view)
+
         // Set up ViewModel
         viewModel = ViewModelProvider(requireActivity()).get(GameViewModel::class.java)
-
-        roomSizeObserver(view)
+        gameView.setUp(viewModel)
 
         setUpActionbarButton(view)
 
@@ -93,6 +94,8 @@ class Level1Fragment : Fragment(), SensorEventListener {
         )
 
         viewModel.startGame(playerData)
+        viewModel.setUpObstacles(playField.children)
+        viewModel.setUpTraps(playField.children)
     }
 
 
@@ -117,62 +120,6 @@ class Level1Fragment : Fragment(), SensorEventListener {
         super.onPause()
         // Unregister the accelerometer to save resources and battery life
         sensorManager.unregisterListener(this)
-    }
-
-    private fun roomSizeObserver(view: View) {
-        val playFieldView: RelativeLayout = view.findViewById(R.id.play_field)
-        // A listener to get the actual measured width and height of the room
-        val playFieldObserver = playFieldView.viewTreeObserver
-
-        playFieldObserver.addOnGlobalLayoutListener {
-            if (screenHeight != playFieldView.measuredWidth) {
-                // Set up Obstacle objects from all obstacles in room
-                viewModel.setUpObstacles(playFieldView.children)
-                // Set up Trap objects from all traps in the room
-                viewModel.setUpTraps(playFieldView.children)
-                Log.d(TAG, "Screen size has changed!")
-                screenWidth = playFieldView.measuredWidth
-                screenHeight = playFieldView.measuredHeight
-                resizeRoom(view)
-                // TODO: Don't do this twice!
-                viewModel.setUpObstacles(playFieldView.children)
-                viewModel.setUpTraps(playFieldView.children)
-            }
-
-            Log.d(TAG, "Screen size: width: ${screenWidth}, height: ${screenHeight}")
-        }
-    }
-
-    private fun resizeRoom(view: View) {
-        if (screenWidth == 0 || screenHeight == 0)
-            return
-
-        if (blabla)
-            return
-
-        val baseWidth  = 1240f
-        val baseHeight = 680f
-        widthModifier  = screenWidth / baseWidth
-        heightModifier = if (screenHeight / baseHeight > 1f) baseHeight / screenHeight else screenHeight / baseHeight
-        val maxDifference = 16
-
-        val playFieldView: RelativeLayout = view.findViewById(R.id.play_field)
-
-        if (abs(baseWidth - screenWidth) > maxDifference || abs(baseHeight - screenHeight) > maxDifference) {
-            for (obj in playFieldView.children) {
-                // Scale objects
-                val layoutParams =  obj.layoutParams
-                layoutParams.width  = (layoutParams.width *  widthModifier).toInt()
-                layoutParams.height = (layoutParams.height * heightModifier).toInt()
-                obj.layoutParams = layoutParams
-                // Move objects
-                obj.translationX = floor(obj.translationX * widthModifier)
-                obj.translationY = floor(obj.translationY * heightModifier)
-
-                viewModel.setSizeModifiers(widthModifier, heightModifier)
-            }
-            blabla = true
-        }
     }
 
     private fun setUpActionbarButton(view: View) {
