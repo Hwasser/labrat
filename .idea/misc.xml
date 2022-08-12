@@ -13,6 +13,8 @@
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.53125" />
         <entry key="app/src/main/res/layout/level1.xml" value="0.33" />
         <entry key="app/src/main/res/menu/game_actionbar.xml" value="0.53125" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/hide_actionbar.xml" value="0.228" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/hide_actionbar_round.xml" value="0.228" />
       </map>
     </option>
   </component>

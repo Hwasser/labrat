@@ -2,7 +2,7 @@ package se.umu.vihw0001.slutprojekt
 
 class Level(lvl: Int) {
     lateinit var startPosition: Coordinates
-    lateinit var cheesePosition: Coordinates
+    lateinit var cheese: Cheese
     lateinit var obstacles: List<Obstacle>
     lateinit var traps: List<Trap>
 
@@ -13,7 +13,7 @@ class Level(lvl: Int) {
             obstacles = obstaclesLevel1()
             traps     = trapsLevel1()
             startPosition = Coordinates(18f * gridSize,0f)
-            cheesePosition = Coordinates(10f * gridSize, 26f * gridSize)
+            cheese = Cheese(10, 25)
         }
     }
 
@@ -32,7 +32,7 @@ class Level(lvl: Int) {
         Trap(9, 3),
         Trap(4,5),
         Trap(13, 5),
-        Trap(7,11)
+        Trap(8,11)
     )
 
 }

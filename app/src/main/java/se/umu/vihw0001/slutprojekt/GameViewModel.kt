@@ -24,6 +24,9 @@ class GameViewModel: ViewModel() {
 
         if (player.collisionTrap(level.traps))
             playerDies()
+
+        if (player.collisionCheese(level.cheese))
+            playerDies() // TODO: Player wins
     }
 
     fun getPlayerPosition() = player.position

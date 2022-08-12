@@ -69,7 +69,7 @@ class Player(var position: Coordinates) {
     }
 
     private fun verticalScreenCollision(position: Float): Boolean {
-        val screenHeight = 1024
+        val screenHeight = 1080
 
         val offset = 70
         val revOffset = 10
@@ -102,6 +102,8 @@ class Player(var position: Coordinates) {
         }
         return false
     }
+
+    fun collisionCheese(cheese: Cheese) = cheese.collision(position)
 
     fun resetPosition() {
         position.x = startPosition.x

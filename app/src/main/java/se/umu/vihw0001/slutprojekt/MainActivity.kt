@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity(){
 
         // Force screen to be active
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         supportFragmentManager
             .beginTransaction()

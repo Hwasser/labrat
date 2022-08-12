@@ -24,8 +24,7 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
     private lateinit var playerBitmap: Bitmap
     private lateinit var viewModel: GameViewModel
     private lateinit var player: Drawable
-
-    private val backgroundColor = ResourcesCompat.getColor(resources, R.color.system_neutral1_200, null)
+    private lateinit var cheese: Drawable
 
     private var playerPositionX = 0f
     private var playerPositionY = 0f
@@ -46,6 +45,8 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         // Get drawable of player
         val playerDrawable = context.resources.getIdentifier("player", "drawable", context.packageName)
         player = resources.getDrawable(playerDrawable, null)
+        val cheeseDrawable = context.resources.getIdentifier("cheese", "drawable", context.packageName)
+        cheese = resources.getDrawable(cheeseDrawable, null)
         movePlayer(viewModel.getPlayerPosition(), viewModel.getPlayerRotation())
     }
 
@@ -53,28 +54,16 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         if (!hasInit)
             return
 
+        val playerSize = 80f
+
         if (::playerBitmap.isInitialized) playerBitmap.recycle()
         playerBitmap = Bitmap.createBitmap(80, 80, Bitmap.Config.ARGB_8888)
         playerCanvas = Canvas(playerBitmap)
 
-        val playerSize = 80f
-        /*
-        player.setBounds(
-            position.x.toInt(),
-            position.y.toInt(),
-            position.x.toInt() + playerSize,
-            position.y.toInt() + playerSize)
-         */
-
         rotationMatrix.setRotate(rotation, playerSize * 0.5f, playerSize * 0.5f)
         rotationMatrix.postTranslate(
-            playerCanvas.width.toFloat()  - playerSize * 0.5f,
-            playerCanvas.height.toFloat() - playerSize * 0.5f)
-
-        rotationMatrix.postTranslate(
-            playerPositionX - playerSize * 0.5f,
-            playerPositionY - playerSize * 0.5f
-        )
+            playerCanvas.width.toFloat()  - playerSize + playerPositionX,
+            playerCanvas.height.toFloat() - playerSize + playerPositionY)
 
         player.setBounds(0,0,80,80)
         playerPositionX = position.x
@@ -87,25 +76,37 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
 
+        // Remove old background bitmap and player bitmap from memory
         if (::backgroundBitmap.isInitialized) backgroundBitmap.recycle()
         if (::playerBitmap.isInitialized) playerBitmap.recycle()
 
+        // Draw background on background canvas, this way we can ensure the whole
+        // screen gets the background, no matter the scaling
+        val backgroundColor = Color.parseColor("#b4f57f")
         backgroundBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         backgroundCanvas = Canvas(backgroundBitmap)
         backgroundCanvas.drawColor(backgroundColor)
 
+        // Draw player of its own canvas to allow rotation
         playerBitmap = Bitmap.createBitmap(80, 80, Bitmap.Config.ARGB_8888)
         playerCanvas = Canvas(playerBitmap)
 
+        // Get the resolution of the screen
         screenWidth = Resources.getSystem().displayMetrics.widthPixels
         screenHeight = Resources.getSystem().displayMetrics.heightPixels
-        actionBarHeight = getResources().getDimensionPixelSize(androidx.appcompat.R.dimen.abc_action_bar_default_height_material);
+
+        // Get the size of the action bar
+        val actionBarOffset = 16
+        actionBarHeight =
+            (getResources().getDimensionPixelSize(androidx.appcompat.R.dimen.abc_action_bar_default_height_material)
+            + actionBarOffset)
 
         hasInit = true
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+
 
         canvas.drawBitmap(backgroundBitmap, 0f, 0f, null)
 
@@ -116,9 +117,13 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
 
         drawObstacles(canvas)
         drawTraps(canvas)
+        drawCheese(canvas)
+
         player.draw(playerCanvas)
         canvas.drawBitmap(playerBitmap, rotationMatrix, null)
     }
+
+    // TODO: Rename xLeft into left
 
     private fun drawObstacles(canvas: Canvas) {
         val obstacles = viewModel.level.obstacles
@@ -127,7 +132,7 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
             val shapeDrawable: ShapeDrawable
             shapeDrawable = ShapeDrawable(RectShape())
             shapeDrawable.setBounds(obj.xLeft, obj.yTop, obj.xRight, obj.yBottom)
-            shapeDrawable.getPaint().setColor(Color.parseColor("#000000"))
+            shapeDrawable.getPaint().setColor(Color.parseColor("#384230"))
             shapeDrawable.draw(canvas)
         }
     }
@@ -142,5 +147,11 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
             trap.setBounds( obj.xLeft, obj.yTop, obj.xRight, obj.yBottom)
             trap.draw(canvas)
         }
+    }
+
+    private fun drawCheese(canvas: Canvas) {
+        val cheeseObject = viewModel.level.cheese
+        cheese.setBounds(cheeseObject.xLeft, cheeseObject.yTop, cheeseObject.xRight, cheeseObject.yBottom)
+        cheese.draw(canvas)
     }
 }
