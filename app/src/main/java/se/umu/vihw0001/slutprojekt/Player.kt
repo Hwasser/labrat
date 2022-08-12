@@ -9,14 +9,13 @@ import kotlin.math.abs
 
 // TODO: Add modifier for all kinds of collisions
 
-class Player(xPosition: Int, yPosition: Int) {
-    val position = Coordinates(xPosition.toFloat(), yPosition.toFloat())
-    val startPosition = Coordinates(xPosition.toFloat(), yPosition.toFloat())
+class Player(var position: Coordinates) {
+    val startPosition = Coordinates(position.x, position.y)
     var rotation = 0.0f
     var widthModifier = 1.0f
     var heightModifier = 1.0f
 
-    fun movePlayer(xMove: Float, yMove: Float, screenWidth: Int, screenHeight: Int, obstacles: List<Obstacle>) {
+    fun movePlayer(xMove: Float, yMove: Float, obstacles: List<Obstacle>) {
         // TODO: Change magic number to what user choose in settings
         val minValue = 0.1f
 
@@ -28,10 +27,10 @@ class Player(xPosition: Int, yPosition: Int) {
         val newPosX = position.x + yMoveAdjusted * 0.5f
         val newPosY = position.y + xMoveAdjusted * 0.5f
 
-        //if (!horizontalScreenCollision(newPosX, screenWidth) && !horizontalObstacleCollision(newPosX, newPosY, obstacles))
+        if (!horizontalScreenCollision(newPosX) && !horizontalObstacleCollision(newPosX, newPosY, obstacles))
             position.x = newPosX
 
-        //if (!verticalScreenCollision(newPosY, screenHeight) && !verticalObstacleCollision(newPosX, newPosY, obstacles))
+        if (!verticalScreenCollision(newPosY) && !verticalObstacleCollision(newPosX, newPosY, obstacles))
             position.y = newPosY
     }
 
@@ -57,9 +56,11 @@ class Player(xPosition: Int, yPosition: Int) {
             rotation = rotationDegrees
     }
 
-    private fun horizontalScreenCollision(position: Float, screenWidth: Int): Boolean {
-        val offset = 52 / widthModifier
-        val revOffset = 4 / widthModifier
+    private fun horizontalScreenCollision(position: Float): Boolean {
+        val screenWidth = 1920
+
+        val offset = 70
+        val revOffset = 10
         // Check if the bounds of the screen (play field) is hit
         if (position < -revOffset || position > screenWidth - offset)
             return true
@@ -67,9 +68,11 @@ class Player(xPosition: Int, yPosition: Int) {
         return false
     }
 
-    private fun verticalScreenCollision(position: Float, screenHeight: Int): Boolean {
-        val offset = 52 * heightModifier
-        val revOffset = 4 / widthModifier
+    private fun verticalScreenCollision(position: Float): Boolean {
+        val screenHeight = 1024
+
+        val offset = 70
+        val revOffset = 10
         // Check if the bounds of the screen (play field) is hit
         if (position < -revOffset || position > screenHeight - offset)
             return true
@@ -79,14 +82,14 @@ class Player(xPosition: Int, yPosition: Int) {
 
     private fun horizontalObstacleCollision(posX: Float, posY: Float, obstacles: List<Obstacle>): Boolean {
         for (obstacle in obstacles) {
-            if (obstacle.horizontalCollision(posX, posY, position, widthModifier, heightModifier))
+            if (obstacle.horizontalCollision(posX, posY, position))
                 return true
         }
         return false
     }
     private fun verticalObstacleCollision(posX: Float, posY: Float, obstacles: List<Obstacle>): Boolean {
         for (obstacle in obstacles) {
-            if (obstacle.verticalCollision(posX, posY, position, widthModifier, heightModifier))
+            if (obstacle.verticalCollision(posX, posY, position))
                 return true
         }
         return false
@@ -94,7 +97,7 @@ class Player(xPosition: Int, yPosition: Int) {
 
     fun collisionTrap(traps: List<Trap>): Boolean {
         for (trap in traps) {
-            if (trap.collision(position, widthModifier, heightModifier))
+            if (trap.collision(position))
                 return true
         }
         return false
@@ -103,11 +106,6 @@ class Player(xPosition: Int, yPosition: Int) {
     fun resetPosition() {
         position.x = startPosition.x
         position.y = startPosition.y
-    }
-
-    fun setSizeModifiers(widthMod: Float, heightMod: Float) {
-        widthModifier  = widthMod
-        heightModifier = heightMod
     }
 
 }

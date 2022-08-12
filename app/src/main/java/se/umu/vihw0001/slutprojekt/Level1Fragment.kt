@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
@@ -39,13 +40,11 @@ class Level1Fragment : Fragment(), SensorEventListener {
 
     private lateinit var viewModel: GameViewModel
     lateinit var sensorManager: SensorManager
-    lateinit var playerView: ImageView
     lateinit var actionbarButton: FloatingActionButton
     lateinit var chronometer: Chronometer
     lateinit var gameView: GameView
 
-    var screenWidth: Int = 0
-    var screenHeight: Int = 0
+    var actionBarHeight: Int = 0
     var hideActionbar = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,26 +75,15 @@ class Level1Fragment : Fragment(), SensorEventListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val playField: RelativeLayout = view.findViewById(R.id.play_field)
         gameView = view.findViewById(R.id.game_view)
 
         // Set up ViewModel
         viewModel = ViewModelProvider(requireActivity()).get(GameViewModel::class.java)
-        gameView.setUp(viewModel)
 
         setUpActionbarButton(view)
 
-        // Set up player
-        playerView = view.findViewById(R.id.player)
-        // TODO: Move to view model
-        val playerData = Player(
-            playerView.translationX.toInt(),
-            playerView.translationY.toInt()
-        )
-
-        viewModel.startGame(playerData)
-        viewModel.setUpObstacles(playField.children)
-        viewModel.setUpTraps(playField.children)
+        viewModel.startGame()
+        gameView.setUp(viewModel)
     }
 
 
@@ -134,6 +122,7 @@ class Level1Fragment : Fragment(), SensorEventListener {
         levelText.visibility = View.INVISIBLE
         timeText.visibility = View.INVISIBLE
         chronometer.visibility = View.INVISIBLE
+        gameView.showActionBar = true
 
         actionbarButton.setOnClickListener{
             if (hideActionbar) {
@@ -142,6 +131,7 @@ class Level1Fragment : Fragment(), SensorEventListener {
                 levelText.visibility   = View.INVISIBLE
                 timeText.visibility    = View.INVISIBLE
                 chronometer.visibility = View.INVISIBLE
+                gameView.showActionBar = true
                 hideActionbar = false
             } else {
                 (activity as AppCompatActivity).supportActionBar?.hide()
@@ -149,6 +139,7 @@ class Level1Fragment : Fragment(), SensorEventListener {
                 levelText.visibility   = View.VISIBLE
                 timeText.visibility    = View.VISIBLE
                 chronometer.visibility = View.VISIBLE
+                gameView.showActionBar = false
                 hideActionbar = true
             }
         }
@@ -163,16 +154,9 @@ class Level1Fragment : Fragment(), SensorEventListener {
             // An update loop for the game
             viewModel.updateEvent(
                 horizontalTilt,
-                verticalTilt,
-                screenWidth,
-                screenHeight)
+                verticalTilt)
 
-            // Ha med detta sedan i inställningar! Ha kallebrerings-inställningar!
-            playerView.apply {
-                translationX = viewModel.getPlayerPosition().x
-                translationY = viewModel.getPlayerPosition().y
-                rotation     = viewModel.getPlayerRotation()
-            }
+            gameView.movePlayer(viewModel.getPlayerPosition(), viewModel.getPlayerRotation())
         }
     }
 
@@ -182,6 +166,8 @@ class Level1Fragment : Fragment(), SensorEventListener {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.game_actionbar, menu)
+
+        actionBarHeight = menu.size()
 
         val textTime: MenuItem = menu.findItem(R.id.text_time_bar)
         // TODO: Only updates when creating options menu
