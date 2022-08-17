@@ -12,6 +12,6 @@
     <string name="menu_button">Menu</string>
     <string name="win_text">You won!</string>
     <string name="name_rank_above">You came in place: </string>
-    <string name="name_rank_below">You didn't set a new highscore .. :(</string>
+    <string name="name_rank_below">You didnt set a new highscore .. :(</string>
 
 </resources>
