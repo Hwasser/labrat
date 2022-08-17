@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/text_level_bar"
-        android:title="Level: 1"
+        android:title="@string/text_level"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/text_time_bar"
-        android:title="Time: 0:00"
+        android:title="@string/text_time"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_button"
-        android:title="Back to Menu"
+        android:title="@string/menu_button"
         app:showAsAction="ifRoom"/>
 </menu>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lab Rat</string>
+
+    <string name="button_new_game">Nytt Spel</string>
+    <string name="button_continue">Fortsätt</string>
+    <string name="button_highscore">Högst Poäng</string>
+    <string name="button_settings">Inställningar</string>
+    <string name="button_return">Tillbaka</string>
+    <string name="text_time">Tid:</string>
+    <string name="text_level">Nivå:</string>
+    <string name="menu_button">Meny</string>
+    <string name="win_text">Du vann!</string>
+    <string name="name_rank_above">Du kom på plats: </string>
+    <string name="name_rank_below">Du satte inget nytt highscore .. :(</string>
+</resources>

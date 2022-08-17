@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#666666"
-    tools:context=".Level1Fragment">
+    tools:context=".GameFragment">
 
     <se.umu.vihw0001.slutprojekt.GameView
         android:id="@+id/game_view"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:padding="2dp"
         android:background="#5000"
-        android:text="Level: 1"
+        android:text="@string/text_level"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,19 +40,10 @@
         android:layout_height="wrap_content"
         android:background="#5000"
         android:padding="2dp"
-        android:text="Time: "
+        android:text="@string/text_time"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Chronometer
-        android:id="@+id/chronometer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#5000"
-        android:padding="2dp"
-        android:textColor="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/text_time"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
