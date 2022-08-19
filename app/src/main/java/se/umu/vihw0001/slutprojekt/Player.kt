@@ -12,8 +12,8 @@ import kotlin.math.abs
 class Player(var position: Coordinates) {
     val startPosition = Coordinates(position.x, position.y)
     var rotation = 0.0f
-    var widthModifier = 1.0f
-    var heightModifier = 1.0f
+    var xSpeed = 1.5f
+    var ySpeed = 1.5f
 
     fun movePlayer(xMove: Float, yMove: Float, obstacles: List<Obstacle>) {
         // TODO: Change magic number to what user choose in settings
@@ -24,8 +24,8 @@ class Player(var position: Coordinates) {
 
         rotatePlayer(xMoveAdjusted, yMoveAdjusted)
 
-        val newPosX = position.x + yMoveAdjusted * 0.5f
-        val newPosY = position.y + xMoveAdjusted * 0.5f
+        val newPosX = position.x + yMoveAdjusted * xSpeed
+        val newPosY = position.y + xMoveAdjusted * ySpeed
 
         if (!horizontalScreenCollision(newPosX) && !horizontalObstacleCollision(newPosX, newPosY, obstacles))
             position.x = newPosX

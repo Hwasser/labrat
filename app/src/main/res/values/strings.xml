@@ -11,7 +11,9 @@
     <string name="text_level">Level:</string>
     <string name="menu_button">Menu</string>
     <string name="win_text">You won!</string>
-    <string name="name_rank_above">You came in place: </string>
-    <string name="name_rank_below">You didnt set a new highscore .. :(</string>
+    <string name="name_rank_above">You made it to the top 10! </string>
+    <string name="name_rank_highest">You made it to first place!</string>
+    <string name="name_rank_below">You did not set a new highscore .. :(</string>
+    <string name="insert_name">Write your name here</string>
 
 </resources>

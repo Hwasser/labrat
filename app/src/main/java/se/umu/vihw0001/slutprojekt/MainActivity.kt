@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 
 const val DEFAULT_LEVEL_TIME: Long = 2 * 60 * 1000 // Two minutes
 const val DEFAULT_FIRST_LEVEL: Int = 1
+const val NUMBER_OF_LEVELS: Int = 2
 
 class MainActivity : AppCompatActivity(){
-    lateinit var fragment: Fragment
     lateinit var highscore: Highscore
     var gameState: GameState? = null
 
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(){
         // Force screen to be active through the whole game
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         // Makes the game full screen
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        this.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         // If no game state exist, create a clean one
         if (savedInstanceState == null) {
@@ -69,9 +69,8 @@ class MainActivity : AppCompatActivity(){
         outState.putFloat("player_position_x", gameState?.playerPosition?.x ?: 0f)
         outState.putFloat("player_position_y", gameState?.playerPosition?.y ?: 0f)
         outState.putLong("time_left", gameState?.timeLeft ?: DEFAULT_LEVEL_TIME)
+        outState.putLong("time_left_last", gameState?.timeLeftLast ?: 0)
         outState.putBoolean("on_going_game", gameState?.onGoingGame ?: false)
-
-        Log.d("MainActivity", "TESTING onSaveInstanceState: ")
 
         super.onSaveInstanceState(outState)
     }
@@ -81,25 +80,26 @@ class MainActivity : AppCompatActivity(){
         val playerPositionX = savedInstanceState.getFloat("player_position_x")
         val playerPositionY = savedInstanceState.getFloat("player_position_y")
         val timeLeft = savedInstanceState.getLong("time_left")
+        val timeLeftLast = savedInstanceState.getLong("time_left_last")
         val onGoingGame = savedInstanceState.getBoolean("on_going_game")
 
         gameState = GameState(
             Coordinates(playerPositionX, playerPositionY),
             timeLeft,
             currentLevel,
+            timeLeftLast,
             onGoingGame
         )
-
-        Log.d("MainActivity", "TESTING onRestoreInstanceState: ")
 
         super.onRestoreInstanceState(savedInstanceState)
     }
 
-    private fun cleanGameState() {
+    fun cleanGameState() {
         gameState = GameState(
             Coordinates(0f, 0f),
             DEFAULT_LEVEL_TIME,
             DEFAULT_FIRST_LEVEL,
+            0,
             false
         )
     }

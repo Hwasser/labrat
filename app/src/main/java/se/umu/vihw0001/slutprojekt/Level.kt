@@ -15,7 +15,15 @@ class Level(var lvl: Int) {
             startPosition = Coordinates(18f * gridSize,0f)
             cheese = Cheese(10, 25)
         }
+        if (lvl == 2) {
+            obstacles = obstaclesLevel2()
+            traps     = trapsLevel2()
+            startPosition = Coordinates(23f * gridSize,12f * gridSize)
+            cheese = Cheese(46, 25  )
+        }
     }
+
+    fun isLastLevel() = (lvl == NUMBER_OF_LEVELS)
 
     private fun obstaclesLevel1() = listOf(
         Obstacle(19, 1, 5, 2),
@@ -67,6 +75,70 @@ class Level(var lvl: Int) {
         Trap(38, 12),
         Trap(38,22),
         Trap(31,25)
+    )
+
+    private fun obstaclesLevel2() = listOf(
+        Obstacle(7,3,0,0),
+        Obstacle(6,1,0,12),
+        Obstacle(1,4,4,13),
+        Obstacle(14,1,0,17),
+        Obstacle(15,1,5,20),
+        Obstacle(9,1,20,19),
+        Obstacle(1,9,8,6),
+        Obstacle(3,1,5,7),
+        Obstacle(7,1,9,12),
+        Obstacle(1,2,11,15),
+        Obstacle(1,5,11,0),
+        Obstacle(18,1,12,5),
+        Obstacle(3,3,14,6),
+        Obstacle(1,1,15,13),
+        Obstacle(2,1,15,13),
+        Obstacle(3,1,16,14),
+        Obstacle(1,6,19,15),
+        Obstacle(17,1,17,2),
+        Obstacle(1,13,28,6),
+        Obstacle(1,3,19,8),
+        Obstacle(1,3,22,6),
+        Obstacle(1,3,25,8),
+        Obstacle(5,1,20,11),
+        Obstacle(1,2,22,12),
+        Obstacle(2,1,23,14),
+        Obstacle(1,24,34,3),
+        Obstacle(11,1,35,9),
+        Obstacle(11,1,37,18),
+        Obstacle(1,4,37,0),
+        Obstacle(10,1,38,2),
+        Obstacle(1,1,42,3)
+    )
+
+    private fun trapsLevel2() = listOf(
+        Trap(8,0),
+        Trap(0,6),
+        Trap(6,8),
+        Trap(0,18),
+        Trap(0,25),
+        Trap(9,10),
+        Trap(17,15),
+        Trap(7,21),
+        Trap(13,25),
+        Trap(20,20),
+        Trap(25,25),
+        Trap(20,17),
+        Trap(26,17),
+        Trap(12,2),
+        Trap(29,18),
+        Trap(32,12),
+        Trap(35,7),
+        Trap(38,7),
+        Trap(41,7),
+        Trap(44,7),
+        Trap(38,13),
+        Trap(41,13),
+        Trap(37,22),
+        Trap(39,21),
+        Trap(45,19),
+        Trap(43,25),
+        Trap(46,16)
     )
 
 }

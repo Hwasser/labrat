@@ -11,6 +11,8 @@
     <string name="text_level">Nivå:</string>
     <string name="menu_button">Meny</string>
     <string name="win_text">Du vann!</string>
-    <string name="name_rank_above">Du kom på plats: </string>
+    <string name="name_rank_above">Du lyckades nå top 10!</string>
+    <string name="name_rank_highest">Du kom på första plats!</string>
     <string name="name_rank_below">Du satte inget nytt highscore .. :(</string>
+    <string name="insert_name">Skriv ditt namn här</string>
 </resources>

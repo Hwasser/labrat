@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="game_bakground">#b4f57f</color>
     <color name="wall">#384230</color>
+    <color name="menu_background_day">#00aacc</color>
+    <color name="menu_background_night">#003a5c</color>
 </resources>

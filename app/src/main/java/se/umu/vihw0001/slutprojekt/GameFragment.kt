@@ -29,10 +29,12 @@ class GameFragment : Fragment(), SensorEventListener, GameViewModel.Callbacks {
     lateinit var timeText: TextView // The text of the timer in the top of screen
 
     var timeLeft: Long = 0 // How much time is left of the timer
+    var timeLeftLast: Long = 0 // How much time was left when completing last level
     var actionBarHeight: Int = 0 // For calculating the size of the action bar
     var hideActionbar = false // Whether the player is hiding the action bar
     var countDownTimerObject: CountDownTimer? = null // The game timer
     var gameState: GameState? = null // For storing the game state
+    var waitForInput = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,13 +74,14 @@ class GameFragment : Fragment(), SensorEventListener, GameViewModel.Callbacks {
     }
 
     private fun setUpTilt() {
+        val sensorDelay = 7500 // This would put it between SENSOR_DELAY_GAME and SENSOR_DELAY_FASTEST
         sensorManager = requireActivity().getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager
         sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also {
             sensorManager.registerListener(
                 this,
                 it,
-                SensorManager.SENSOR_DELAY_FASTEST,
-                SensorManager.SENSOR_DELAY_FASTEST)
+                sensorDelay,
+                sensorDelay)
         }
     }
 
@@ -87,13 +90,13 @@ class GameFragment : Fragment(), SensorEventListener, GameViewModel.Callbacks {
 
         gameState = (context as MainActivity).gameState
         timeLeft = gameState?.timeLeft ?: DEFAULT_LEVEL_TIME
+        timeLeftLast = gameState?.timeLeftLast ?: 0
+
         startGame(
             gameState?.level ?: DEFAULT_FIRST_LEVEL,
             gameState?.playerPosition ?: Coordinates(0f,0f),
             gameState?.onGoingGame ?: false)
 
-        // Set upp the drawing surface of the game view
-        gameView.setUp(viewModel)
         // Attack fragment to view model callbacks
         viewModel.attachCallbacks(this@GameFragment)
         // Set up the acceleratometer - or ability to tilt the phone
@@ -106,10 +109,12 @@ class GameFragment : Fragment(), SensorEventListener, GameViewModel.Callbacks {
         // Unregister the accelerometer to save resources and battery life
         sensorManager.unregisterListener(this)
 
+        if (waitForInput)
         (mContext as MainActivity).gameState = GameState(
             viewModel.getPlayerPosition(),
             timeLeft,
             viewModel.level.lvl,
+            timeLeftLast,
             true
         )
     }
@@ -158,8 +163,7 @@ class GameFragment : Fragment(), SensorEventListener, GameViewModel.Callbacks {
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
-            // Renaname to xMove, yMove
+        if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER && !waitForInput) {
             val horizontalTilt = event.values[0]
             val verticalTilt   = event.values[1]
 
@@ -173,31 +177,41 @@ class GameFragment : Fragment(), SensorEventListener, GameViewModel.Callbacks {
     }
 
     override fun playerDies() {
-        val startTime: Long = DEFAULT_LEVEL_TIME // Two minutes of countdown time
         countDownTimerObject?.cancel() // Cancel old timer
-        startCountdown(startTime) // Set new timer
+        startCountdown(DEFAULT_LEVEL_TIME) // Set new timer
     }
 
-    override fun playerWins(lastLevel: Boolean) {
-        if (lastLevel) {
-            (mContext as MainActivity).gameState = GameState(
-                Coordinates(0f,0f),
-                DEFAULT_LEVEL_TIME,
-                DEFAULT_FIRST_LEVEL,
-                false)
+    override fun playerWins() {
+        waitForInput = true
+        countDownTimerObject?.cancel() // Cancel old timer
 
-            val fragment = MenuFragment()
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit()
+        if (viewModel.level.isLastLevel()) {
+            val dialog = WinPopupFragment(this)
+            dialog.show(childFragmentManager, null)
+        } else {
+            nextLevel()
         }
+
+    }
+
+    private fun nextLevel() {
+        // Update game state for new level
+        val nextLevel = (gameState?.level ?: 1) + 1
+        timeLeftLast = timeLeft
+        timeLeft = DEFAULT_LEVEL_TIME
+        // Switch to new level
+        startGame(nextLevel,Coordinates(0f,0f), false)
+        // Let the player move again
+        waitForInput = false
     }
 
     private fun startGame(currentLevel: Int, playerPosition: Coordinates, onGoingGame: Boolean) {
         countDownTimerObject?.cancel()
         startCountdown(timeLeft)
         viewModel.startGame(currentLevel,playerPosition, !onGoingGame)
+
+        // Set upp the drawing surface of the game view
+        gameView.setUp(viewModel)
     }
 
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
@@ -220,16 +234,18 @@ class GameFragment : Fragment(), SensorEventListener, GameViewModel.Callbacks {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_button ->  {
-                val fragment = MenuFragment()
-                requireActivity().supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit()
-            }
+            R.id.menu_button -> goToMenu()
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    fun goToMenu() {
+        val fragment = MenuFragment()
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
     }
 
     private fun startCountdown(countdownTime: Long) {

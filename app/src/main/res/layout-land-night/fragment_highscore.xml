@@ -5,16 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00aacc"
+    android:background="#005a7c"
     tools:context=".HighscoreFragment">
 
     <ImageView
         android:id="@+id/highscore_logo"
-        android:layout_width="240dp"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/highscore_light"
+        android:src="@drawable/highscore_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +28,7 @@
         android:backgroundTint="#00EE00"
         android:paddingHorizontal="32dp"
         android:text="@string/button_return"
-        android:textSize="30sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -56,52 +56,52 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="2dp"
                 android:paddingHorizontal="8dp"
                 android:background="#3000"
                 android:text="1.   Not taken - 0:00:000"
                 android:textColor="#ffff00"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="2dp"
                 android:paddingHorizontal="8dp"
                 android:background="#3000"
                 android:text="2.   Not taken - 0:00:000"
                 android:textColor="#ffffee"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="2dp"
                 android:paddingHorizontal="8dp"
                 android:background="#3000"
                 android:text="3.   Not taken - 0:00:000"
                 android:textColor="#ffffee"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="2dp"
                 android:paddingHorizontal="8dp"
                 android:background="#3000"
                 android:text="4.   Not taken - 0:00:000"
                 android:textColor="#ffffee"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="2dp"
                 android:paddingHorizontal="8dp"
                 android:background="#3000"
                 android:text="5.   Not taken - 0:00:000"
                 android:textColor="#ffffee"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -117,52 +117,52 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="2dp"
                 android:paddingHorizontal="8dp"
                 android:background="#3000"
                 android:text="6.   Not taken - 0:00:000"
                 android:textColor="#ffffee"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="2dp"
                 android:paddingHorizontal="8dp"
                 android:background="#3000"
                 android:text="7.   Not taken - 0:00:000"
                 android:textColor="#ffffee"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="2dp"
                 android:paddingHorizontal="8dp"
                 android:background="#3000"
                 android:text="8.   Not taken - 0:00:000"
                 android:textColor="#ffffff"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="2dp"
                 android:paddingHorizontal="8dp"
                 android:background="#3000"
                 android:text="9.   Not taken - 0:00:000"
                 android:textColor="#ffffee"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="2dp"
                 android:paddingHorizontal="8dp"
                 android:background="#3000"
                 android:text="10. Not taken - 0:00:000"
                 android:textColor="#ffffee"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
 
         </LinearLayout>

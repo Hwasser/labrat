@@ -88,6 +88,7 @@ class MenuFragment : Fragment() {
             Coordinates(0f,0f),
             DEFAULT_LEVEL_TIME,
             DEFAULT_FIRST_LEVEL,
+            0,
             false)
 
         val fragment = GameFragment()

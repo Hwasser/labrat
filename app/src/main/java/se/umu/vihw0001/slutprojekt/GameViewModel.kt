@@ -14,7 +14,7 @@ class GameViewModel: ViewModel() {
 
     interface Callbacks {
         fun playerDies()
-        fun playerWins(lastLevel: Boolean)
+        fun playerWins()
     }
 
     private var callbacks: Callbacks? = null
@@ -42,7 +42,7 @@ class GameViewModel: ViewModel() {
         )
 
         if (player.collisionTrap(level.traps))
-            playerWins()
+            playerDies()
 
         if (player.collisionCheese(level.cheese))
             playerWins()
@@ -61,7 +61,7 @@ class GameViewModel: ViewModel() {
     }
 
     private fun playerWins() {
-        // TODO: Can make new level here
-        callbacks?.playerWins(true)
+        callbacks?.playerWins()
+        player.resetPosition()
     }
 }

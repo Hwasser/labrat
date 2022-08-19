@@ -37,7 +37,7 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
     private val baseWidth = 1920f
     private val baseHeight = 1080f
 
-    var rotationMatrix = Matrix()
+    var rotationMatrix = Matrix() // For being able to rotate the player bitmap
 
     fun setUp(viewModel: GameViewModel) {
         this.viewModel = viewModel
@@ -60,15 +60,17 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         playerBitmap = Bitmap.createBitmap(80, 80, Bitmap.Config.ARGB_8888)
         playerCanvas = Canvas(playerBitmap)
 
+        // Set rotation matrix for rotating bitmap
         rotationMatrix.setRotate(rotation, playerSize * 0.5f, playerSize * 0.5f)
+        // Adjust position after rotation is done
         rotationMatrix.postTranslate(
             playerCanvas.width.toFloat()  - playerSize + playerPositionX,
             playerCanvas.height.toFloat() - playerSize + playerPositionY)
-
+        // Get size and position of player bitmap
         player.setBounds(0,0,80,80)
         playerPositionX = position.x
         playerPositionY = position.y
-
+        // Redraw screen
         invalidate()
 
     }
@@ -82,7 +84,7 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
 
         // Draw background on background canvas, this way we can ensure the whole
         // screen gets the background, no matter the scaling
-        val backgroundColor = Color.parseColor("#b4f57f")
+        val backgroundColor = Color.parseColor("#31bd56")
         backgroundBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         backgroundCanvas = Canvas(backgroundBitmap)
         backgroundCanvas.drawColor(backgroundColor)
@@ -106,19 +108,18 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
-
+        // Draw background
         canvas.drawBitmap(backgroundBitmap, 0f, 0f, null)
-
+        // For scaling the canvas according to phone screen
         val actionBarValue = if (showActionBar) actionBarHeight else 0
         val widthModifier = screenWidth.toFloat() / baseWidth
         val heightModifier = (screenHeight.toFloat() - actionBarValue) / baseHeight
         canvas.scale(widthModifier, heightModifier)
-
+        // Draw level
         drawObstacles(canvas)
         drawTraps(canvas)
         drawCheese(canvas)
-
+        // Draw player
         player.draw(playerCanvas)
         canvas.drawBitmap(playerBitmap, rotationMatrix, null)
     }

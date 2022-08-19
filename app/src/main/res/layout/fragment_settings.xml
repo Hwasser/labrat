@@ -6,19 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/return_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#00EE00"
+        android:paddingHorizontal="32dp"
+        android:text="@string/button_return"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <RelativeLayout
         android:id="@+id/game_screen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        app:layout_constraintBottom_toTopOf="@+id/return_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/square"
-            android:layout_width="240dp"
-            android:layout_height="240dp"
-            android:text=""
-            android:gravity="center"
+            android:id="@+id/game"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
             android:background="#FF0000"
-            android:layout_centerInParent="true"/>
+            android:gravity="center"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/meter_point"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerInParent="true"
+            android:background="#000000"
+            android:gravity="center"
+            android:text="" />
 
     </RelativeLayout>
 

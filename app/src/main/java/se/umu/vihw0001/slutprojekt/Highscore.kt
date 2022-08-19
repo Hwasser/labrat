@@ -11,10 +11,11 @@ import java.util.*
 
 const val FILENAME = "highscore.text"
 const val NAME_PLACEHOLDER = "Not Taken"
-const val MAX_TIME: Long = 2 * 60 * 100
 
 class Highscore(context: Context) {
-    private var highscore: MutableList<Pair<String, Long>> = mutableListOf(Pair(NAME_PLACEHOLDER, MAX_TIME))
+    private var highscore: MutableList<Pair<String, Long>> = mutableListOf(Pair(
+        NAME_PLACEHOLDER,
+        DEFAULT_LEVEL_TIME * NUMBER_OF_LEVELS))
     val path = context.filesDir
 
     fun importHighscore() {
@@ -67,11 +68,15 @@ class Highscore(context: Context) {
         }
     }
 
-    fun getHighest(): Long {
+    fun getBest(): Long {
+        if (highscore.isEmpty())
+            return DEFAULT_LEVEL_TIME * NUMBER_OF_LEVELS
         return highscore.first().second
     }
 
-    fun getLowest(): Long {
+    fun getWorst(): Long {
+        if (highscore.isEmpty())
+            return DEFAULT_LEVEL_TIME * NUMBER_OF_LEVELS
         return highscore.last().second
     }
 
@@ -89,7 +94,7 @@ class Highscore(context: Context) {
 
             return "$rank$spaceLength $name - $minutes:$seconds:$ms"
         }
-        return "$rank$spaceLength $NAME_PLACEHOLDER - 2:0:0"
+        return "$rank$spaceLength $NAME_PLACEHOLDER - 4:0:0"
     }
 
 
