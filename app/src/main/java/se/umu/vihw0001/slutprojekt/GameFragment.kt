@@ -98,14 +98,15 @@ class GameFragment : Fragment(), SensorEventListener, GameViewModel.Callbacks {
         // Unregister the accelerometer to save resources and battery life
         sensorManager.unregisterListener(this)
         // Save the state of the game
-        if (waitForInput)
-        (mContext as MainActivity).gameState = GameState(
-            viewModel.getPlayerPosition(),
-            timeLeft,
-            viewModel.level.lvl,
-            timeLeftLast,
-            true
-        )
+        if (!waitForInput) {
+            (mContext as MainActivity).gameState = GameState(
+                viewModel.getPlayerPosition(),
+                timeLeft,
+                viewModel.level.lvl,
+                timeLeftLast,
+                true
+            )
+        }
     }
 
     /**

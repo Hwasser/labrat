@@ -14,10 +14,13 @@
         <entry key="app/src/main/res/layout-large-land/fragment_menu.xml" value="0.25" />
         <entry key="app/src/main/res/layout-large-night/fragment_highscore.xml" value="0.11067708333333333" />
         <entry key="app/src/main/res/layout-large-night/fragment_menu.xml" value="0.22" />
+        <entry key="app/src/main/res/layout-large-night/fragment_settings.xml" value="0.2526720820863617" />
         <entry key="app/src/main/res/layout-large/fragment_highscore.xml" value="0.2" />
         <entry key="app/src/main/res/layout-large/fragment_menu.xml" value="0.18170158187259514" />
+        <entry key="app/src/main/res/layout-large/fragment_settings.xml" value="0.2" />
         <entry key="app/src/main/res/layout-night/fragment_highscore.xml" value="0.52875" />
         <entry key="app/src/main/res/layout-night/fragment_menu.xml" value="1.25" />
+        <entry key="app/src/main/res/layout-night/fragment_settings.xml" value="0.2203125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_win.xml" value="0.4" />
         <entry key="app/src/main/res/layout/fragment_game.xml" value="0.9" />

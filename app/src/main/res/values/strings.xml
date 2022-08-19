@@ -15,5 +15,9 @@
     <string name="name_rank_highest">You made it to first place!</string>
     <string name="name_rank_below">You did not set a new highscore .. :(</string>
     <string name="insert_name">Write your name here</string>
+    <string name="hor_calibration">Horizontal calibration</string>
+    <string name="ver_calibration">Vertical calibration</string>
+    <string name="hor_axis_reverse">Inverse horizontal axis</string>
+    <string name="ver_axis_reverse">Inverse vertical axis</string>
 
 </resources>

@@ -15,4 +15,8 @@
     <string name="name_rank_highest">Du kom på första plats!</string>
     <string name="name_rank_below">Du satte inget nytt highscore .. :(</string>
     <string name="insert_name">Skriv ditt namn här</string>
+    <string name="hor_calibration">Vågrätt kalibrering</string>
+    <string name="ver_calibration">Lodrätt kalibrering</string>
+    <string name="hor_axis_reverse">Spegelvänd vågrätt riktning</string>
+    <string name="ver_axis_reverse">Spegelvänd lodrätt riktning</string>
 </resources>
