@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="#00aacc">
 
     <Button
         android:id="@+id/return_button"
@@ -21,21 +21,15 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <RelativeLayout
-        android:id="@+id/game_screen"
-        android:layout_width="240dp"
-        android:layout_height="240dp"
+        android:id="@+id/meter_square"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="3dp"
+        android:background="#99EEFF"
         app:layout_constraintBottom_toTopOf="@+id/return_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/game"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:background="#FF0000"
-            android:gravity="center"
-            android:text="" />
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/meter_point"
@@ -47,5 +41,66 @@
             android:text="" />
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/width_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Horizontal calibration"
+        app:layout_constraintEnd_toStartOf="@+id/meter_square"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/width_slider"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:min="0"
+        android:progress="50"
+        app:layout_constraintEnd_toStartOf="@+id/meter_square"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/width_text" />
+
+    <TextView
+        android:id="@+id/height_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vertical calibration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/meter_square"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/width_slider" />
+
+    <SeekBar
+        android:id="@+id/height_slider"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:min="0"
+        android:progress="50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/meter_square"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/height_text" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inverse horizontal axis"
+        app:layout_constraintEnd_toStartOf="@+id/meter_square"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/height_slider" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inverse vertical axis"
+        app:layout_constraintEnd_toStartOf="@+id/meter_square"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

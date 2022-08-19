@@ -64,26 +64,27 @@ class MenuFragment : Fragment() {
         newGameButton   = view.findViewById(R.id.new_game_button)
         highScoreButton = view.findViewById(R.id.highscore_button)
         settingsButton  = view.findViewById(R.id.settings_button)
-
+        // Bind fragments
+        val gameFragment = GameFragment()
+        val highscoreFragment = HighscoreFragment()
+        val settingsFragment = SettingsFragment()
+        // Set events for buttons
         continueButton.setOnClickListener{
-            resumeGame()
+            if (hasStarted)
+                moveToFragment(gameFragment)
         }
         newGameButton.setOnClickListener{
-            startNewGame()
+            startNewGame(gameFragment)
         }
         highScoreButton.setOnClickListener{
-            val fragment = HighscoreFragment()
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit()
+            moveToFragment(highscoreFragment)
         }
-        settingsButton.setOnClickListener{
-
+        settingsButton.setOnClickListener {
+            moveToFragment(settingsFragment)
         }
     }
 
-    private fun startNewGame() {
+    private fun startNewGame(fragment: Fragment) {
         (mContext as MainActivity).gameState = GameState(
             Coordinates(0f,0f),
             DEFAULT_LEVEL_TIME,
@@ -91,20 +92,13 @@ class MenuFragment : Fragment() {
             0,
             false)
 
-        val fragment = GameFragment()
+        moveToFragment(fragment)
+    }
+
+    private fun moveToFragment(fragment: Fragment) {
         requireActivity().supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
-    }
-
-    private fun resumeGame() {
-        if (hasStarted) {
-            val fragment = GameFragment()
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit()
-        }
     }
 }

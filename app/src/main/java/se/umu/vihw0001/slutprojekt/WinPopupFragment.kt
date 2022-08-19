@@ -34,8 +34,15 @@ class WinPopupFragment(private val fragment: GameFragment) : AppCompatDialogFrag
                     playerName,
                     score
                 )
+                // Reset the game state
+                fragment.gameState = GameState(
+                    Coordinates(0f,0f),
+                    DEFAULT_LEVEL_TIME,
+                    DEFAULT_FIRST_LEVEL,
+                    0,
+                    false
+                )
                 // Go back to the menu
-                (requireActivity() as MainActivity).cleanGameState()
                 fragment.goToMenu()
             }
         return builder.create()

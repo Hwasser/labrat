@@ -26,14 +26,17 @@ class GameViewModel: ViewModel() {
     /**
      * This function contains basic game information that has to be set up before a game can start
      */
-    fun startGame(startLevel: Int, playerPosition: Coordinates, newGame: Boolean) {
+    fun startGame(startLevel: Int, playerPosition: Coordinates, newGame: Boolean, settings: Settings) {
         level = Level(startLevel) // Always start at first level
         if (newGame)
-            player = Player(level.startPosition)
+            player = Player(level.startPosition, settings)
         else
-            player = Player(playerPosition)
+            player = Player(playerPosition, settings)
     }
 
+    /**
+     * Update the game state at each change of the accelerometer
+     */
     fun updateEvent(horizontalTilt: Float, verticalTilt: Float) {
         player.movePlayer(
             horizontalTilt,
@@ -48,7 +51,14 @@ class GameViewModel: ViewModel() {
             playerWins()
     }
 
+    /**
+     * Fetch the current player position
+     */
     fun getPlayerPosition() = player.position
+
+    /**
+     * Fetch the current player rotation
+     */
     fun getPlayerRotation() = player.rotation
 
     /**
