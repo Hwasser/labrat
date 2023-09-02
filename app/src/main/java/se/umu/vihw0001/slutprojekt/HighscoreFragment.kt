@@ -1,9 +1,6 @@
 package se.umu.vihw0001.slutprojekt
 
 import android.content.Context
-import android.content.pm.ActivityInfo
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,13 +13,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 
 class HighscoreFragment : Fragment() {
-    lateinit var backButton: Button
-    var highscore: Highscore? = null
+    private lateinit var backButton: Button
+    private var highscore: Highscore? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
+    /**
+     * When attaching the view, makes sure the action bar is hidden and fetch
+     * a pointer to highscores.
+     */
     override fun onAttach(context: Context) {
         // Hide the action bar
         (activity as AppCompatActivity).supportActionBar?.hide()
@@ -42,6 +39,17 @@ class HighscoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUpHighscores(view)
+        setUpBackButton(view)
+    }
+
+    /**
+     * Fetch formated strings of all highscore entires from the highscore model and place them
+     * in the view.
+     *
+     * @param view The fragment view.
+     */
+    private fun setUpHighscores(view: View) {
         val leftScoreboard = view.findViewById<LinearLayout?>(R.id.scoreboard_left)
         val rightScoreboard = view.findViewById<LinearLayout?>(R.id.scoreboard_right)
         val allRanks = view.findViewById<LinearLayout>(R.id.scoreboard).children
@@ -64,8 +72,14 @@ class HighscoreFragment : Fragment() {
                 index += 1
             }
         }
+    }
 
-
+    /**
+     * Set up the back to menu button.
+     *
+     * @param view The fragment view.
+     */
+    private fun setUpBackButton(view: View) {
         backButton = view.findViewById(R.id.return_button)
         backButton.setOnClickListener{
             val fragment = MenuFragment()

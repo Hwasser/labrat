@@ -8,8 +8,11 @@ import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.sign
 
-const val MAX_SPEED = 6.66f
+const val MAX_SPEED = 6.66f // Max speed of the player
 
+/**
+ * The player object. Contains position, rotation, movement and collision events.
+ */
 class Player(var position: Coordinates, val settings: Settings) {
     val startPosition = Coordinates(position.x, position.y)
     var rotation = 0.0f
@@ -70,6 +73,7 @@ class Player(var position: Coordinates, val settings: Settings) {
      * Checks if a position is colliding with the y-axis of the frame of the level.
      *
      * @param position A position of the y-axis to check.
+     * @return Whether a collision has occured.
      */
     private fun horizontalScreenCollision(position: Float): Boolean {
         val screenWidth = 1920
@@ -87,6 +91,7 @@ class Player(var position: Coordinates, val settings: Settings) {
      * Checks if a position is colliding with the x-axis of the frame of the level.
      *
      * @param position A position of the x-axis to check.
+     * @return Whether a collision has occured.
      */
     private fun verticalScreenCollision(position: Float): Boolean {
         val screenHeight = 1080
@@ -106,6 +111,7 @@ class Player(var position: Coordinates, val settings: Settings) {
      * @param posX The next position of the x-axis of the player.
      * @param posY The next position of the y-axis of the player.
      * @param obstacles A list containing all obstacles of the current level.
+     * @return Whether a collision has occured.
      */
     private fun horizontalObstacleCollision(posX: Float, posY: Float, obstacles: List<Obstacle>): Boolean {
         // Check if any of the obstacles is currently colliding with the player position
@@ -122,6 +128,7 @@ class Player(var position: Coordinates, val settings: Settings) {
      * @param posX The next position of the x-axis of the player.
      * @param posY The next position of the y-axis of the player.
      * @param obstacles A list containing all obstacles of the current level.
+     * @return Whether a collision has occured.
      */
     private fun verticalObstacleCollision(posX: Float, posY: Float, obstacles: List<Obstacle>): Boolean {
         for (obstacle in obstacles) {
@@ -135,6 +142,7 @@ class Player(var position: Coordinates, val settings: Settings) {
      * Checks if the current position of the player is colliding with a mouse trap.
      *
      * @param traps A list containing all traps of the current level.
+     * @return Whether a collision has occured.
      */
     fun collisionTrap(traps: List<Trap>): Boolean {
         for (trap in traps) {
@@ -148,6 +156,7 @@ class Player(var position: Coordinates, val settings: Settings) {
      * Checks if the current position of the player is colliding with a cheese.
      *
      * @param cheese Contains a cheese-object.
+     * @return Whether a collision has occured.
      */
     fun collisionCheese(cheese: Cheese) = cheese.collision(position)
 

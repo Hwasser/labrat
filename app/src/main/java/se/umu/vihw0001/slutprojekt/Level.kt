@@ -1,30 +1,49 @@
 package se.umu.vihw0001.slutprojekt
 
+/**
+ * Contains data of a game level.
+ *
+ * A level is represented as objects in an abstract game plane in a 1920x1080 coordinate system
+ * (no matter the resolution of the actual device). What the player sees as the level
+ * is actually a canvas which draws the objects to the screen. So all movement appears in
+ * this abstract game plane and not in the view.
+ *
+ * @param lvl Which level to fetch
+ */
 class Level(var lvl: Int) {
-    lateinit var startPosition: Coordinates
-    lateinit var cheese: Cheese
-    lateinit var obstacles: List<Obstacle>
-    lateinit var traps: List<Trap>
+    lateinit var startPosition: Coordinates // Start position of player.
+    lateinit var cheese: Cheese // Cheese object - takes player to next level.
+    lateinit var obstacles: List<Obstacle> // All obstacles in the level.
+    lateinit var traps: List<Trap> // All mouse traps in the level.
 
-    private val gridSize = 40
-
+    /**
+     * Fetches one of the game levels.
+     */
     init {
         if (lvl == 1) {
             obstacles = obstaclesLevel1()
             traps     = trapsLevel1()
-            startPosition = Coordinates(18f * gridSize,0f)
+            startPosition = Coordinates(18f * GRID_SIZE,0f)
             cheese = Cheese(10, 25)
         }
         if (lvl == 2) {
             obstacles = obstaclesLevel2()
             traps     = trapsLevel2()
-            startPosition = Coordinates(23f * gridSize,12f * gridSize)
+            startPosition = Coordinates(23f * GRID_SIZE,12f * GRID_SIZE)
             cheese = Cheese(46, 25  )
         }
     }
 
+    /**
+     * Whether the current level is the last level.
+     *
+     * @return Whether the current level is the last level.
+     */
     fun isLastLevel() = (lvl == NUMBER_OF_LEVELS)
 
+    /**
+     * Returns all obstacles of level 1
+     */
     private fun obstaclesLevel1() = listOf(
         Obstacle(19, 1, 5, 2),
         Obstacle(1, 7, 20, 0),
@@ -58,6 +77,9 @@ class Level(var lvl: Int) {
         Obstacle(14,1,24,22)
     )
 
+    /**
+     * Returns all rat traps of level 1
+     */
     private fun trapsLevel1() = listOf(
         Trap(9, 3),
         Trap(4,5),
@@ -77,6 +99,9 @@ class Level(var lvl: Int) {
         Trap(31,25)
     )
 
+    /**
+     * Returns all obstacles of level 2
+     */
     private fun obstaclesLevel2() = listOf(
         Obstacle(7,3,0,0),
         Obstacle(6,1,0,12),
@@ -111,6 +136,9 @@ class Level(var lvl: Int) {
         Obstacle(1,1,42,3)
     )
 
+    /**
+     * Returns all rat traps of level 2
+     */
     private fun trapsLevel2() = listOf(
         Trap(8,0),
         Trap(0,6),
@@ -140,5 +168,4 @@ class Level(var lvl: Int) {
         Trap(43,25),
         Trap(46,16)
     )
-
 }

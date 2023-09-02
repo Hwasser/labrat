@@ -15,13 +15,12 @@ class MenuFragment : Fragment() {
     private lateinit var newGameButton: Button
     private lateinit var highScoreButton: Button
     private lateinit var settingsButton: Button
-    lateinit var mContext: Context
-    var hasStarted = false
+    private lateinit var mContext: Context
+    private var hasStarted = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
+    /**
+     * Hide the action bar and allow different screen orientations when attaching the menu fragment.
+     */
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -47,6 +46,10 @@ class MenuFragment : Fragment() {
         setUpMenuButtons(view)
     }
 
+    /**
+     * When resuming the view, check whether an ongoing game is on to check whether
+     * the "Continue button" should appear activated or not.
+     */
     override fun onResume() {
         hasStarted = (mContext as MainActivity).gameState?.onGoingGame ?: false
 
@@ -59,6 +62,11 @@ class MenuFragment : Fragment() {
         super.onResume()
     }
 
+    /**
+     * Sets up all the buttons of the menu.
+     *
+     * @param view The fragment view.
+     */
     private fun setUpMenuButtons(view: View) {
         continueButton  = view.findViewById(R.id.continue_button)
         newGameButton   = view.findViewById(R.id.new_game_button)
@@ -84,6 +92,11 @@ class MenuFragment : Fragment() {
         }
     }
 
+    /**
+     * Starts a new game and sets a clean game state.
+     *
+     * @param fragment The fragment of the game fragment.
+     */
     private fun startNewGame(fragment: Fragment) {
         (mContext as MainActivity).gameState = GameState(
             Coordinates(0f,0f),
@@ -95,6 +108,11 @@ class MenuFragment : Fragment() {
         moveToFragment(fragment)
     }
 
+    /**
+     * Replaces the current framgent with another one.
+     *
+     * @param fragment Fragment to replace the current one with.
+     */
     private fun moveToFragment(fragment: Fragment) {
         requireActivity().supportFragmentManager
             .beginTransaction()

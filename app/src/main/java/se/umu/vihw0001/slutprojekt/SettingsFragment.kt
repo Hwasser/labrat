@@ -7,7 +7,6 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -26,24 +25,10 @@ class SettingsFragment : Fragment(), SensorEventListener {
     private lateinit var horizontalReverse: SwitchMaterial
     private lateinit var verticalReverse: SwitchMaterial
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onResume() {
         super.onResume()
 
-        val xDirection = (requireActivity() as MainActivity).settings?.xDirection ?: 1
-        val yDirection = (requireActivity() as MainActivity).settings?.yDirection ?: 1
-        horizontalReverse.isChecked = if (xDirection == 1) false else true
-        verticalReverse.isChecked = if (yDirection == 1) false else true
-
-        val xSpeedModifier = (requireActivity() as MainActivity).settings?.xSpeedModifier ?: DEFAULT_SPEED
-        val ySpeedModifier = (requireActivity() as MainActivity).settings?.ySpeedModifier ?: DEFAULT_SPEED
-
-        horizontalSlider.progress = (10f * xSpeedModifier / 0.15f - 50f).toInt()
-        verticalSlider.progress   = (10f * ySpeedModifier / 0.15f - 50f).toInt()
-
+        restoreSettings()
         setUpTilt()
     }
 
@@ -84,20 +69,12 @@ class SettingsFragment : Fragment(), SensorEventListener {
         verticalSlider    = view.findViewById(R.id.height_slider)
         horizontalReverse = view.findViewById(R.id.switch1)
         verticalReverse   = view.findViewById(R.id.switch2)
-        // Set up back to menu button
-        backButton = view.findViewById(R.id.return_button)
-        backButton.setOnClickListener{
-            saveSettings()
-            val fragment = MenuFragment()
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit()
-        }
+
+        backToMenu(view)
     }
 
     /**
-     * Save changes to game settings.
+     * Saves current changes to the game settings.
      */
     private fun saveSettings() {
         val xSpeedModifier = (horizontalSlider.progress + 50f) * 0.015f
@@ -111,6 +88,39 @@ class SettingsFragment : Fragment(), SensorEventListener {
             xDirection,
             yDirection
         )
+    }
+
+    /**
+     * Restore the current stored settings to the view.
+     */
+    private fun restoreSettings() {
+        val xDirection = (requireActivity() as MainActivity).settings?.xDirection ?: 1
+        val yDirection = (requireActivity() as MainActivity).settings?.yDirection ?: 1
+        horizontalReverse.isChecked = if (xDirection == 1) false else true
+        verticalReverse.isChecked = if (yDirection == 1) false else true
+
+        val xSpeedModifier = (requireActivity() as MainActivity).settings?.xSpeedModifier ?: DEFAULT_SPEED
+        val ySpeedModifier = (requireActivity() as MainActivity).settings?.ySpeedModifier ?: DEFAULT_SPEED
+
+        horizontalSlider.progress = (10f * xSpeedModifier / 0.15f - 50f).toInt()
+        verticalSlider.progress   = (10f * ySpeedModifier / 0.15f - 50f).toInt()
+    }
+
+    /**
+     * Go back to the main menu.
+     *
+     * @param view The view of the fragment.
+     */
+    private fun backToMenu(view: View) {
+        backButton = view.findViewById(R.id.return_button)
+        backButton.setOnClickListener{
+            saveSettings()
+            val fragment = MenuFragment()
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit()
+        }
     }
 
     /**
@@ -128,6 +138,9 @@ class SettingsFragment : Fragment(), SensorEventListener {
         }
     }
 
+    /**
+     * Whenever the user tilts the phone, make the view respond.
+     */
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
             val horizontalTilt = event.values[1]
@@ -180,11 +193,5 @@ class SettingsFragment : Fragment(), SensorEventListener {
             }
 
         }
-    }
-
-    override fun onDestroy() {
-        sensorManager.unregisterListener(this)
-
-        super.onDestroy()
     }
 }

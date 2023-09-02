@@ -288,15 +288,28 @@ class GameFragment : Fragment(), SensorEventListener, GameViewModel.Callbacks {
             .commit()
     }
 
+    /**
+     * Initializes a new CountDownTimer object.
+     *
+     * @param countdownTime Time to start the timer at
+     */
     private fun startCountdown(countdownTime: Long) {
         countDownTimerObject = object : CountDownTimer(countdownTime, 10) {
+            /**
+             * Updates text in the view at each centosecond.
+             *
+             * @param timeLeftTimer How much time that is left in the timer.
+             */
             override fun onTick(timeLeftTimer: Long) {
+                // Formating of the time
                 val centSecond = (timeLeftTimer / 10).toString().takeLast(2)
                 val second = (timeLeftTimer / 1000) % 60
                 val minute = timeLeftTimer / (1000 * 60) % 60
 
                 timeLeft = timeLeftTimer
 
+                Update the TextView at the top at the screen and in the ActionBar,
+                // if they are initialized.
                 if (this@GameFragment::mContext.isInitialized) {
                     // Get text two be written before the count down time
                     val text = mContext.getText(R.string.text_time).toString()

@@ -30,7 +30,7 @@
         android:padding="2dp"
         android:background="#5000"
         android:text="@string/text_level"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,7 +41,7 @@
         android:background="#5000"
         android:padding="2dp"
         android:text="@string/text_time"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

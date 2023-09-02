@@ -16,7 +16,10 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 
-
+/**
+ * The in-game view. The game is displayed as a canvas on the screen. Draws the abstract
+ * game plane to the canvas.
+ */
 class GameView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
     private lateinit var backgroundCanvas: Canvas
     private lateinit var backgroundBitmap: Bitmap
@@ -31,14 +34,19 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
     private var screenWidth = 0
     private var screenHeight = 0
     private var actionBarHeight = 0
-    private var hasInit = false
+    private var hasInit = false // Whether the game view has been initialized or not
     var showActionBar = true
 
-    private val baseWidth = 1920f
-    private val baseHeight = 1080f
+    private val baseWidth = 1920f // The base width of the abstract game plane
+    private val baseHeight = 1080f // The base height of the abstract game plane
 
     var rotationMatrix = Matrix() // For being able to rotate the player bitmap
 
+    /**
+     * Get the player and cheese image resources and moves the player to the starting position.
+     *
+     * @param viewModel The game view model.
+     */
     fun setUp(viewModel: GameViewModel) {
         this.viewModel = viewModel
 
@@ -50,14 +58,20 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         movePlayer(viewModel.getPlayerPosition(), viewModel.getPlayerRotation())
     }
 
+    /**
+     * Moves and rotates the player position on the screen if the player has moved.
+     *
+     * @param position The current player position in the game plane.
+     * @param rotation The current player direction.
+     */
     fun movePlayer(position: Coordinates, rotation: Float) {
         if (!hasInit)
             return
 
-        val playerSize = 80f
+        val playerSize = GRID_SIZE * 2f
 
         if (::playerBitmap.isInitialized) playerBitmap.recycle()
-        playerBitmap = Bitmap.createBitmap(80, 80, Bitmap.Config.ARGB_8888)
+        playerBitmap = Bitmap.createBitmap(GRID_SIZE * 2, GRID_SIZE * 2, Bitmap.Config.ARGB_8888)
         playerCanvas = Canvas(playerBitmap)
 
         // Set rotation matrix for rotating bitmap
@@ -67,7 +81,7 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
             playerCanvas.width.toFloat()  - playerSize + playerPositionX,
             playerCanvas.height.toFloat() - playerSize + playerPositionY)
         // Get size and position of player bitmap
-        player.setBounds(0,0,80,80)
+        player.setBounds(0,0, GRID_SIZE * 2, GRID_SIZE * 2)
         playerPositionX = position.x
         playerPositionY = position.y
         // Redraw screen
@@ -75,6 +89,15 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
 
     }
 
+    /**
+     * If the size of the canvas changes, set up bitmaps (recycling the old ones),
+     * draw the background color and get the screen size of the device.
+     *
+     * @param w New width of the canvas
+     * @param h New height of the canvas
+     * @param oldw Old width of the canvas
+     * @param oldh Old height of the canvas
+     */
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
 
@@ -90,7 +113,7 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         backgroundCanvas.drawColor(backgroundColor)
 
         // Draw player of its own canvas to allow rotation
-        playerBitmap = Bitmap.createBitmap(80, 80, Bitmap.Config.ARGB_8888)
+        playerBitmap = Bitmap.createBitmap(GRID_SIZE * 2, GRID_SIZE * 2, Bitmap.Config.ARGB_8888)
         playerCanvas = Canvas(playerBitmap)
 
         // Get the resolution of the screen
@@ -106,6 +129,11 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         hasInit = true
     }
 
+    /**
+     * Draws all objects of the abstract game plane to the game view.
+     *
+     * @param canvas The main canvas.
+     */
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         // Draw background
@@ -124,8 +152,11 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         canvas.drawBitmap(playerBitmap, rotationMatrix, null)
     }
 
-    // TODO: Rename xLeft into left
-
+    /**
+     * Draw all obstacles of the current level.
+     *
+     * @param canvas The main canvas.
+     */
     private fun drawObstacles(canvas: Canvas) {
         val obstacles = viewModel.level.obstacles
 
@@ -138,6 +169,11 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         }
     }
 
+    /**
+     * Draw all mouse traps of the current level
+     *
+     * @param canvas The main canvas.
+     */
     private fun drawTraps(canvas: Canvas) {
         val trapDrawable = context.resources.getIdentifier("trap", "drawable", context.packageName)
 
@@ -150,6 +186,11 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         }
     }
 
+    /**
+     * Draws the cheese of the current level.
+     *
+     * @param canvas The main canvas.
+     */
     private fun drawCheese(canvas: Canvas) {
         val cheeseObject = viewModel.level.cheese
         cheese.setBounds(cheeseObject.xLeft, cheeseObject.yTop, cheeseObject.xRight, cheeseObject.yBottom)

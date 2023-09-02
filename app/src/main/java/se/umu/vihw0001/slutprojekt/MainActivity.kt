@@ -6,16 +6,21 @@ import android.util.Log
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
 
-const val DEFAULT_LEVEL_TIME: Long = 2 * 60 * 1000 // Two minutes
-const val DEFAULT_FIRST_LEVEL: Int = 1
-const val NUMBER_OF_LEVELS: Int = 2
-const val DEFAULT_SPEED = 1.5f
+const val DEFAULT_LEVEL_TIME: Long = 2 * 60 * 1000 // Default time for completing a room - 2 min
+const val DEFAULT_FIRST_LEVEL: Int = 1 // Default level to start from
+const val NUMBER_OF_LEVELS: Int = 2 // Number of levels in the game
+const val DEFAULT_SPEED = 1.5f // Default speed modifier for player
+const val GRID_SIZE = 40 // Size of game grid
 
 class MainActivity : AppCompatActivity(){
-    lateinit var highscore: Highscore
-    var gameState: GameState? = null
-    var settings: Settings? = null
+    lateinit var highscore: Highscore // Highscore model
+    var gameState: GameState? = null // Game state
+    var settings: Settings? = null // Game settings
 
+    /**
+     * When creating the fragment, force the game to be in full screen, to be awake,
+     * check whether a saved state exists, import highscore and boot up a fragment.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -41,7 +46,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     /**
-     * Boot up the current fragment when the app state is restored
+     * Boot up the current fragment when the app is started or restored.
      */
     private fun setUpFragment() {
         // If there are no fragments in stack, go to menu
@@ -62,6 +67,9 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
+    /**
+     * Saves the current state and exports the highscore when activity stops.
+     */
     override fun onStop() {
         onSaveInstanceState(Bundle())
         highscore.exportHighscore()
@@ -71,6 +79,8 @@ class MainActivity : AppCompatActivity(){
 
     /**
      * Stores the game state and settings when the application or a current game is paused
+     *
+     * @param outState Bundle of saved data.
      */
     override fun onSaveInstanceState(outState: Bundle) {
         // Store the game State
@@ -99,7 +109,7 @@ class MainActivity : AppCompatActivity(){
     /**
      * Restores the game state from a bundle.
      *
-     * @param savedInstanceState A stored state
+     * @param savedInstanceState A stored state.
      */
     private fun restoreGameState(savedInstanceState: Bundle) {
         val currentLevel = savedInstanceState.getInt("current_level")
